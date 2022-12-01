@@ -19,7 +19,7 @@ console.log(newPerson);
 //나머지 연산자
 
 const filter = (...args) => {
-  //다음과 같이 매개변수에 통합가능
+  //다음과 같이 매개 변수에 통합가능
   return args.filter((el) => el === 1);
 };
 console.log(filter(1, 2, 3));
