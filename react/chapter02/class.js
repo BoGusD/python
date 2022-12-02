@@ -40,6 +40,6 @@ class Person extends Human {
     console.log(this.name);
   };
 }
-const person = new Person();
+const person = new Person(); 
 person.printName();
 person.printGender();
