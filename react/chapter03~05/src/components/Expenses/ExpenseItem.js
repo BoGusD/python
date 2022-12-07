@@ -4,12 +4,6 @@ import "./ExpenseItem.css";
 import { useState } from "react";
 
 export default function ExpenseItem(props) {
-  const [title, setTitle] = useState(props.title);
-
-  const clickHandler = () => {
-    setTitle("Updated");
-  };
-
   return (
     <Card className="expense-item">
       <ExpenseDate date={props.date} />.
@@ -17,7 +11,6 @@ export default function ExpenseItem(props) {
         <h2>{props.title}</h2>
         <div className="expense-item__price">${props.amount}</div>
       </div>
-      <button onClick={clickHandler}>Change Title</button>
     </Card>
   );
 }
