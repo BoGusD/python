@@ -1,7 +1,7 @@
 import { useState } from "react";
-import "./NewExpenseForm.css";
+import "./ExpenseForm.css";
 
-export default function NewExpenseForm() {
+export default function ExpenseForm(props) {
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredAmount, setEnteredAmount] = useState("");
   const [enteredDate, setEnteredDate] = useState("");
@@ -35,7 +35,7 @@ export default function NewExpenseForm() {
   };
 
   //기본적으로 submit에 의해 보내지는 기본요청을 막는 자바스크립트 설정(preventDefault)
-  const sumbitHandler = (event) => {
+  const submitHandler = (event) => {
     event.preventDefault();
 
     const expenseData = {
@@ -43,14 +43,14 @@ export default function NewExpenseForm() {
       amount: enteredAmount,
       date: new Date(enteredDate),
     };
-    console.log(expenseData);
+    props.onSaveExpenseData(expenseData);
     setEnteredTitle("");
     setEnteredAmount("");
     setEnteredDate("");
   };
   //양방향 바인딩: 변경되는 입력값만 수신하는 것이 아닌 입력에 새로운 값을 다시 전달할 때 사용 value를 입력요소에 추가해서 다음 설정
   return (
-    <form onSubmit={sumbitHandler}>
+    <form onSubmit={submitHandler}>
       <div className="new-expense__controls">
         <div className="new-expense__control">
           <label>Title</label>
