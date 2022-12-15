@@ -32,7 +32,7 @@ export default function AvailableMeals() {
     <MealItem
       key={meal.id}
       name={meal.name}
-      descripition={meal.description}
+      description={meal.description}
       price={meal.price}
     />
   ));
