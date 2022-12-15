@@ -11,7 +11,7 @@ export default function Cart(props) {
   );
   return (
     <>
-      <Modal>
+      <Modal onClose={props.onClose}>
         {cartItems}
         <div classname={classes.total}>
           <span>Total Amount</span>

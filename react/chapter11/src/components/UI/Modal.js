@@ -17,7 +17,7 @@ export default function Modal(props) {
   return (
     <>
       {ReactDOM.createPortal(
-        <Backdrop onclose={props.onClose} />,
+        <Backdrop onClose={props.onClose} />,
         portalElement
       )}
       {ReactDOM.createPortal(
