@@ -1,70 +1,250 @@
-# Getting Started with Create React App
+### 리엑트가 백그라운드에서 어떻게 작용하는지 확인
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### ReactDom
 
-## Available Scripts
+전체 Dom을 랜더링하지않고 랜더링하기전과 랜더링될 후 의 코드를 비교하여 바뀐 부분만 랜더링한다.
 
-In the project directory, you can run:
+아래와 같은 코드를 테스트해보면서 p 태그 생성부분만 랜더링되는 부분을 확인
 
-### `npm start`
+```jsx
+import React from "react";
+import { useState } from "react";
+import Button from "./components/UI/Button/Button";
+import "./App.css";
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+function App() {
+  const [showPargraph, setShowPargraph] = useState(false);
+  console.log("App Running");
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+  const toggleParagraphHandler = () => {
+    setShowPargraph((prevShowParagraph) => !prevShowParagraph);
+  };
+  return (
+    <div className="app">
+      <h1>Hi there!</h1>
+      {showPargraph && <p>This is new!</p>}
+      <Button onClick={toggleParagraphHandler}>Toggle Pargraph!</Button>
+    </div>
+  );
+}
 
-### `npm test`
+export default App;
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+아래와 같은 경우에는 왜 DemoOutPut이 랜더링이 될까?
 
-### `npm run build`
+- DemoOutPut 컴포넌트에 대한 함수를 호출하고 Button 컴포넌트에 대한 함수를 호출하게 되어
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+이 것이 자식 컴포넌트들 역시 다시 실행되고 재평가되는 이유
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- 부모 컴포넌트들이 변경되었기에 자식 컴포넌트도 변경된다.(부모 컴포넌트의 일부분)
+- 하지만 컴포넌트가 재평가되었다고 해서 DOM이 실행되는 것은 아니다.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```jsx
+import React from "react";
+import { useState } from "react";
+import Button from "./components/UI/Button/Button";
+import DemoOutput from "./components/Demo/DemoOutput";
+import "./App.css";
 
-### `npm run eject`
+function App() {
+  const [showPargraph, setShowPargraph] = useState(false);
+  console.log("App Running");
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+  const toggleParagraphHandler = () => {
+    setShowPargraph((prevShowParagraph) => !prevShowParagraph);
+  };
+  return (
+    <div className="app">
+      <h1>Hi there!</h1>
+      <DemoOutput show={false} />
+      <Button onClick={toggleParagraphHandler}>Toggle Pargraph!</Button>
+    </div>
+  );
+}
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+export default App;
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+DemoOutPut.js
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```jsx
+import React from "react";
 
-## Learn More
+export default function DemoOutput(props) {
+  console.log("DemoOutPut Running");
+  return <p>{props.show ? "This is New!" : ""}</p>;
+}
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### React.memo
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+불필요한 랜더링을 최소화하는 hook
 
-### Code Splitting
+최적화가 가능하지만 해당 resource가 사용되기 때문에 모든 컴포넌트에 사용되지 않는다.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+(가장 최상단에 있는 트리 컴포넌트나 메모리가 큰 컴포넌트에 사용됨) 
 
-### Analyzing the Bundle Size
+다음과 같은 양식으로 사용되면 클래스형 컴포넌트에서는 사용 불가
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```jsx
+import React from "react";
 
-### Making a Progressive Web App
+const DemoOutput = (props) => {
+  console.log("DemoOutPut Running");
+  return <p>{props.show ? "This is New!" : ""}</p>;
+};
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+export default React.memo(DemoOutput);
+```
 
-### Advanced Configuration
+다음과 같은 경우 React. memo를 적용시키고 외관상 보기에 변화되는 값이 없는데 랜더링이 일어나는 이유가 무엇인가?
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Button.js
 
-### `npm run build` fails to minify
+```jsx
+import React from "react";
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+import classes from "./Button.module.css";
+
+const Button = (props) => {
+  console.log("Button RUNNING");
+  return (
+    <button
+      type={props.type || "button"}
+      className={`${classes.button} ${props.className}`}
+      onClick={props.onClick}
+      disabled={props.disabled}
+    >
+      {props.children}
+    </button>
+  );
+};
+
+export default React.memo(Button);
+```
+
+App.js
+
+```jsx
+import React from "react";
+import { useState } from "react";
+import Button from "./components/UI/Button/Button";
+import DemoOutput from "./components/Demo/DemoOutput";
+import "./App.css";
+
+function App() {
+  const [showPargraph, setShowPargraph] = useState(false);
+  console.log("App Running");
+
+  const toggleParagraphHandler = () => {
+    setShowPargraph((prevShowParagraph) => !prevShowParagraph);
+  };
+  return (
+    <div className="app">
+      <h1>Hi there!</h1>
+      <DemoOutput show={false} />
+      <Button onClick={toggleParagraphHandler}>Toggle Pargraph!</Button>
+    </div>
+  );
+}
+
+export default App;
+```
+
+- 원인은 자바스크립트 특성 때문이다.
+- 아래 코드에 의하여 특정 함수가 추가되어 이전함수와 비교하게 되지만
+
+자바스크립트 특성상 [1,2,3]===[1,2,3] << false
+
+props.onCLick === props.previous.onClick <<< false
+
+```jsx
+  const toggleParagraphHandler = () => {
+    setShowPargraph((prevShowParagraph) => !prevShowParagraph);
+  };
+```
+
+해당 해설 영상
+
+[https://academind.com/tutorials/reference-vs-primitive-values](https://academind.com/tutorials/reference-vs-primitive-values)
+
+ 
+
+### UseCallback
+
+- 아래와 같은 로직을 실행하는 역할로 useMemo의 역할을 보완
+- 리엑트 내부공간에 객체의 데이터를 저장해 함수 객체가 실행될 때마다 재사용할 수 있게 해준다.
+
+### 다음와 같이 같은 메모리 안에서 같은 위치와 값을 보유했을 때 동일한 값으로 인식
+
+
+
+다음과 같은 양식으로 사용되며 함수 불변을 유지하고 싶을 때 사용
+
+UseEffect와 동일하게 두번째 인자가 필요하며, 두번째 인자는 의존성 배열
+
+```jsx
+import React from "react";
+import { useState, useCallback } from "react";
+import Button from "./components/UI/Button/Button";
+import DemoOutput from "./components/Demo/DemoOutput";
+import "./App.css";
+
+function App() {
+  const [showPargraph, setShowPargraph] = useState(false);
+  console.log("App Running");
+
+  const toggleParagraphHandler = useCallback(() => {
+    setShowPargraph((prevShowParagraph) => !prevShowParagraph);
+  },[]);
+  return (
+    <div className="app">
+      <h1>Hi there!</h1>
+      <DemoOutput show={false} />
+      <Button onClick={toggleParagraphHandler}>Toggle Pargraph!</Button>
+    </div>
+  );
+}
+
+export default App;
+```
+
+ React.memo가 이전값과 비교가 가능하게끔 usecallback을 활용하여 설정해서 Button console.log가 안뜸(Button 재랜더링 안됨)
+
+
+
+다음과 같은경우는  useCallback에 관한 블록 스코프 함수가 된다.
+
+```jsx
+const toggleParagraphHandler = useCallback(() => {
+    if (allowToggle) {
+      setShowPargraph((prevShowParagraph) => !prevShowParagraph);
+    }
+  }, [allowToggle]);
+
+  const allowToggleHandler = () => {
+    setAllowToggle(true);
+  };
+  return (
+    <div className="app">
+      <h1>Hi there!</h1>
+      <DemoOutput show={showPargraph} />
+      <Button onClick={allowToggleHandler}>Allow Toggling!</Button>
+      <Button onClick={toggleParagraphHandler}>Toggle Pargraph!</Button>
+    </div>
+  );
+}
+
+export default App;
+```
+
+### UseState
+
+### 왜 useState가 실행됐을 때는 전체적으로 랜더링이 되지 않을까
+
+- Usestate는 리엑트가 제공을 하고 리엑트 자체가 상태를 관리하고 컴포넌트와 연결을 관리하는데 useState에 전달된 기본값에 대해서는 한번만 고려되도록 처리한다. 또 첫 랜더링이 되었을 때 리엑트가 usestate가 어디 메모리에 저장되어있는지 기억한다. 그래서 useState에 해당되는 새로운 상태가 생성되지 않는 것이다.
+
+
