@@ -214,7 +214,7 @@ export default App;
 
  React.memo가 이전값과 비교가 가능하게끔 usecallback을 활용하여 설정해서 Button console.log가 안뜸(Button 재랜더링 안됨)
 
-(https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4c80fc34-7404-4017-bba9-728f1f82ba73/Untitled.png)
+
 
 다음과 같은경우는  useCallback에 관한 블록 스코프 함수가 된다.
 
