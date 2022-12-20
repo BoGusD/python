@@ -100,7 +100,7 @@ export default React.memo(DemoOutput);
 
 다음과 같은 경우 React. memo를 적용시키고 외관상 보기에 변화되는 값이 없는데 랜더링이 일어나는 이유가 무엇인가?
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/dd01b64e-785c-4fca-8385-b9ebe82dc998/Untitled.png)
+
 
 ### Button.js
 
@@ -180,7 +180,7 @@ props.onCLick === props.previous.onClick <<< false
 
 ### 다음와 같이 같은 메모리 안에서 같은 위치와 값을 보유했을 때 동일한 값으로 인식
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6c016eef-ec7d-4ba3-82c9-d88563c400ee/Untitled.png)
+
 
 다음과 같은 양식으로 사용되며 함수 불변을 유지하고 싶을 때 사용
 
@@ -247,6 +247,4 @@ export default App;
 
 - Usestate는 리엑트가 제공을 하고 리엑트 자체가 상태를 관리하고 컴포넌트와 연결을 관리하는데 useState에 전달된 기본값에 대해서는 한번만 고려되도록 처리한다. 또 첫 랜더링이 되었을 때 리엑트가 usestate가 어디 메모리에 저장되어있는지 기억한다. 그래서 useState에 해당되는 새로운 상태가 생성되지 않는 것이다.
 
-### 리엑트가 상태에 대한 갱신을 하는 방법
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/31db77df-5752-4c90-8460-80d25d566345/Untitled.png)
