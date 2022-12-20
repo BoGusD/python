@@ -6,7 +6,6 @@
 
 (데이터베이스에 해당되는 데이터를 프론트 단 즉 노출시키면 안되기 때문이다.)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0a4d7061-e176-4492-b3ec-5e0691803638/Untitled.png)
 
 ## API : Application Programming Interface
 
