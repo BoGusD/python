@@ -2,41 +2,32 @@ import React, { useEffect, useState } from "react";
 
 import Tasks from "./components/Tasks/Tasks";
 import NewTask from "./components/NewTask/NewTask";
+import useHttp from "./hooks/use-http";
 
 function App() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [tasks, setTasks] = useState([]);
 
-  const fetchTasks = async (taskText) => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const response = await fetch(
-        "https://react-http-f965b-default-rtdb.firebaseio.com/tasks.json"
-      );
+  const httpData = useHttp();
+  //자바스크립트에서 분해 문법에 콜론을 추가하여 새로운 이름을 부여할 수 있다.
+  const { isLoading, error, sendRequest: fetchTasks } = httpData;
 
-      if (!response.ok) {
-        throw new Error("Request failed!");
-      }
-
-      const data = await response.json();
-
+  useEffect(() => {
+    const transformTask = (taskobj) => {
       const loadedTasks = [];
 
-      for (const taskKey in data) {
-        loadedTasks.push({ id: taskKey, text: data[taskKey].text });
+      for (const taskKey in taskobj) {
+        loadedTasks.push({ id: taskKey, text: taskobj[taskKey].text });
       }
 
       setTasks(loadedTasks);
-    } catch (err) {
-      setError(err.message || "Something went wrong!");
-    }
-    setIsLoading(false);
-  };
+    };
 
-  useEffect(() => {
-    fetchTasks();
+    fetchTasks(
+      {
+        url: "https://react-http-f965b-default-rtdb.firebaseio.com/tasks.json",
+      },
+      transformTask
+    );
   }, []);
 
   const taskAddHandler = (task) => {
