@@ -1,20 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const SimpleInput = (props) => {
   const [enteredName, setEnteredName] = useState("");
   const [enteredNameTouched, setEnteredNameTouched] = useState(false);
-  const [formIsValid, setFormIsValid] = useState(false);
 
   const enteredNameIsValid = enteredName.trim() !== "";
   const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
 
-  useEffect(() => {
-    if (enteredNameIsValid) {
-      setFormIsValid(true);
-    } else {
-      setFormIsValid(false);
-    }
-  }, [enteredNameIsValid]);
+  let formIsValid = false;
+  if (enteredNameIsValid) {
+    formIsValid(true);
+  }
 
   //input 요소에 해당되는 값을 얻고 싶을 때 event 객체를 사용하여 얻는다(자바스크립트가 브라우저에서 작동하는 방식 )
   const nameInputChangeHandler = (event) => {
