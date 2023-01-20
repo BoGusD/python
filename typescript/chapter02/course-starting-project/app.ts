@@ -1,3 +1,94 @@
+//unknown !== any
+//any는 타입을 관여하지 않지만 unkown은 타입을 확인하는 제한적인 타입
+//그러므로 어떤 타입을 수행하는지 확실하게 명시할 수 있다.
+let userInput: unknown;
+let userName: string;
+
+userInput = 5;
+userInput = "Max";
+if (typeof userInput === "string") {
+  userName = userInput;
+}
+
+// //never
+// let userInput: unknown;
+// let userName: string;
+
+// userInput = 5;
+// userInput = "Max";
+// if (typeof userInput === "string") {
+//   userName = userInput;
+// }
+// // 이 함수는 기본적으로 값을 생성하지 않음 기본적인 타입은 void로 인식되지만 never로도 활용 가능
+// function generateError(message: string, code: number): never {
+//   throw { message: message, errorCode: code };
+// }
+// generateError("An error occurred!", 500);
+
+//callback
+// function add(n1: number, n2: number) {
+//   return n1 + n2;
+// }
+
+// //undefined 타입스크립트는 값을 반환하지 않는 반환문이 있다고 여긴다.
+// function printResult(num: number): undefined {
+//   console.log("Result" + num);
+//   return;
+// }
+
+// //callback 타입에 void를 지정하면 기본적으로 여기서 반환할 수 있는 모든 결과를 무시하게 된다.
+// function addAndHandler(n1: number, n2: number, cb: (num: number) => void) {
+//   const result = n1 + n2;
+//   cb(result);
+// }
+
+// let combineValues: (a: number, b: number) => number;
+
+// combineValues = add;
+// // combineValues = printResult;
+// // combineValues = 5;
+
+// console.log(combineValues(8, 8));
+
+// // let someValue: undefined;
+
+// //return을 안하게 됨
+// addAndHandler(10, 20, (result) => {
+//   console.log(result);
+// });
+
+// // undefined
+// function add(n1: number, n2: number) {
+//   return n1 + n2;
+// }
+
+// //undefined 타입스크립트는 값을 반환하지 않는 반환문이 있다고 여긴다.
+// function printResult(num: number): undefined {
+//   console.log("Result" + num);
+//   return;
+// }
+
+// printResult(add(5, 12));
+
+// let combineValues: (a: number, b: number) => number;
+
+// combineValues = add;
+// // combineValues = printResult;
+// // combineValues = 5;
+
+// console.log(combineValues(8, 8));
+
+// // let someValue: undefined;
+
+//void
+// function add(n1: number, n2: number) {
+//   return n1 + n2;
+// }
+// function printResult(num: number): void {
+//   console.log("Result" + num);
+// }
+// console.log(printResult(add(5, 12)));
+
 //type alias
 // type Combinable = number | string;
 // type ConversionDescriptor = 'as-number' | 'as-text';
