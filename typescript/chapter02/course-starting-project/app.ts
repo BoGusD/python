@@ -1,15 +1,3 @@
-// //unknown !== any
-// //any는 타입을 관여하지 않지만 unkown은 타입을 확인하는 제한적인 타입
-// //그러므로 어떤 타입을 수행하는지 확실하게 명시할 수 있다.
-// let userInput: unknown;
-// let userName: string;
-
-// userInput = 5;
-// userInput = "Max";
-// if (typeof userInput === "string") {
-//   userName = userInput;
-// }
-
 // //never
 // let userInput: unknown;
 // let userName: string;
@@ -24,6 +12,18 @@
 //   throw { message: message, errorCode: code };
 // }
 // generateError("An error occurred!", 500);
+
+// //unknown !== any
+// //any는 타입을 관여하지 않지만 unkown은 타입을 확인하는 제한적인 타입
+// //그러므로 어떤 타입을 수행하는지 확실하게 명시할 수 있다.
+// let userInput: unknown;
+// let userName: string;
+
+// userInput = 5;
+// userInput = "Max";
+// if (typeof userInput === "string") {
+//   userName = userInput;
+// }
 
 //callback
 // function add(n1: number, n2: number) {
