@@ -1,7 +1,11 @@
 const express = require("express");
-const bodyParser = require("body-parser");
-
 const server = express();
+const bodyParser = require("body-parser");
+const path = require("path");
+
+const adminRoutes = require("./routes/admin");
+const shopRoutes = require("./routes/shop");
+const { appendFile } = require("fs");
 
 //middleWare
 
@@ -10,18 +14,16 @@ const server = express();
 //use는 모든 http에 반응한다.
 server.use(bodyParser.urlencoded({ extended: false }));
 
-server.use("/add-product", (req, res, next) => {
-  res.send(
-    '<form action="/product" method="POST"><input type+"text" name="title"><button type="submit">Add Product</button></input></form>'
-  );
-});
-server.post("/product", (req, res, next) => {
-  console.log(req.body);
-  res.redirect("/");
-});
+//바로 읽기 액세스를 허용하고자 하는 폴더(여러개의 정적 폴더 등록 가능)
+server.use(express.static(path.join(__dirname, "public")));
 
-server.use("/", (req, res, next) => {
-  res.send("<h1>Hello from Express!</h1>");
+//경로 필터링
+server.use("/admin", adminRoutes);
+server.use(shopRoutes);
+
+//404 에러
+server.use((req, res, next) => {
+  res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
 });
 
 server.listen(4000);
