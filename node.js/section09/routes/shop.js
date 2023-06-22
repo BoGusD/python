@@ -12,6 +12,8 @@ router.get("/", shopController.getIndex);
 
 router.get("/products", shopController.getProducts);
 
+//router.get("/products/delete") >> 동적 경로가 아니기에 productId 위에 사용해줘야함
+
 router.get("/products/:productId", shopController.getProduct);
 
 router.get("/cart", shopController.getCart);
