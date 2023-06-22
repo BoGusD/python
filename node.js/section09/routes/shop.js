@@ -1,21 +1,23 @@
-const path = require('path');
+const path = require("path");
 
-const express = require('express');
+const express = require("express");
 
-const shopController = require('../controllers/shop');
+const shopController = require("../controllers/shop");
 
 const router = express.Router();
 
-router.get('/', shopController.getIndex);
+//항상 코드는 위에서 아래로 파싱된다.
 
-router.get('/products', shopController.getProducts);
+router.get("/", shopController.getIndex);
 
-router.get('/products/:productId', shopController.getProduct);
+router.get("/products", shopController.getProducts);
 
-router.get('/cart', shopController.getCart);
+router.get("/products/:productId", shopController.getProduct);
 
-router.get('/orders', shopController.getOrders);
+router.get("/cart", shopController.getCart);
 
-router.get('/checkout', shopController.getCheckout);
+router.get("/orders", shopController.getOrders);
+
+router.get("/checkout", shopController.getCheckout);
 
 module.exports = router;
